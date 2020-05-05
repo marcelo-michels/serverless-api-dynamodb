@@ -1,0 +1,53 @@
+
+
+service: serverless-api-dynamodb
+
+custom:
+  PREFIX_TABLE:
+    dev: dev_
+    prod: prod_
+  EXAMPLE_ENV:
+    dev: 1111
+    prod: 2222
+  MY_SECRET_ENV:
+    dev: ${ssm:serverless-api-dynamodb-dev-MY_SECRET_ENV}
+    prod: ${ssm:serverless-api-dynamodb-prod-MY_SECRET_ENV}
+
+provider:
+  name: aws
+  profile: awsmmcom
+  runtime: nodejs12.x
+  memorySize: 256 # MB
+  timeout: 10 # seconds
+  region: sa-east-1
+  stage: ${opt:stage, 'dev'}
+
+  environment:
+    PREFIX_TABLE: ${self:custom.PREFIX_TABLE.${self:provider.stage}}
+    EXAMPLE_ENV: ${self:custom.EXAMPLE_ENV.${self:provider.stage}}
+    MY_SECRET_ENV: ${self:custom.MY_SECRET_ENV.${self:provider.stage}}
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sqs:*"
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "*"
+
+package:
+  exclude:
+    - src/**
+
+functions:
+  api:
+    handler: build/src/server.handler
+    #provisionedConcurrency: 1 # optional, Count of provisioned lambda instances
+    #reservedConcurrency: 2 # optional, reserved concurrency limit for this function. By default, AWS uses account concurrency limit
+    events:
+      - http:
+          method: any
+          path: /{proxy+}
+          cors: true
