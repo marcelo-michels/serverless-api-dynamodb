@@ -1,6 +1,7 @@
 import { Dynamo } from '../../services/dynamo'
 
 export class UserDAO extends Dynamo {
+
   constructor () {
     super('user')
   }
@@ -27,4 +28,5 @@ export class UserDAO extends Dynamo {
       ])
     }
   }
+
 }

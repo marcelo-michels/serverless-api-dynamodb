@@ -8,6 +8,7 @@ import { nanoid } from './nanoid'
  */
 
 export class Dynamo {
+
     tableName: string;
 
     constructor (table) {
@@ -118,4 +119,5 @@ export class Dynamo {
       params.ExpressionAttributeValues[`:${field}`] = value
       await this.update(params)
     }
+
 }

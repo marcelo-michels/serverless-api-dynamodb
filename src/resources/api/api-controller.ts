@@ -4,6 +4,7 @@ import { UserDAO } from '../user/user-dao'
 
 @JsonController()
 export class APIController {
+
   @Get('/version')
   version () {
     return { version: pkg.version }
@@ -19,4 +20,5 @@ export class APIController {
       return { sync: 'ERROR' }
     }
   }
+
 }
