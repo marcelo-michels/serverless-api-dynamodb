@@ -4,6 +4,7 @@ import { UserDAO } from './user-dao'
 
 @JsonController()
 export class UserController {
+
   userDao = new UserDAO();
 
   @Get('/users')
@@ -86,4 +87,5 @@ export class UserController {
       return { status: 'error' }
     }
   }
+
 }
