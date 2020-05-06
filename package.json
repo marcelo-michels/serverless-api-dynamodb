@@ -7,7 +7,8 @@
     "deploy:dev": "tsc && sls deploy -s dev",
     "deploy:prod": "tsc && sls deploy -s prod",
     "logs:prod": "sls logs -f api -s prod",
-    "logs:dev": "sls logs -f api -s dev"
+    "logs:dev": "sls logs -f api -s dev",
+    "lint": "eslint 'src/**'"
   },
   "dependencies": {
     "class-transformer": "^0.2.3",
@@ -36,6 +37,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.2.5",
     "nodemon": "^2.0.3",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
@@ -53,5 +55,10 @@
     ],
     "exec": "npm start",
     "ext": "ts"
-  }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+      }
+    }
 }
